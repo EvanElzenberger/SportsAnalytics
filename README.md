@@ -28,7 +28,8 @@ Performed statistical analysis and create various graphs to present findings.
 NBA Provided by the professor, taken from [NBA.com](NBA.com/stats)
 
 ### Exam Highlights:
--Basketball
+
+- Basketball
   - Compute the average offensive rating by team for this data set
 ```r
 nba_stats <- readRDS("nba_stats.rds")
