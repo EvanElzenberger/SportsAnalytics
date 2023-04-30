@@ -20,7 +20,15 @@ Performed statistical analysis and create various graphs to present findings.
 ### Data Source:
 NBA Provided by the professor, taken from [NBA.com](NBA.com/stats)
 ### Exam Highlights:
-- 
+- Compute the average offensive rating by team for this data set
+```r
+nba_stats <- readRDS("nba_stats.rds")
+average_team_offrating <- nba_stats %>%
+dplyr::group_by(team_name)%>%
+dplyr::mutate(off_rating = as.numeric(off_rating)) %>%
+dplyr::summarize(mean(off_rating))
+average_team_offrating
+```
 
 ## Topic 2
 
