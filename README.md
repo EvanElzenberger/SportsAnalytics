@@ -13,6 +13,10 @@ Performed statistical analysis and create various graphs to present findings.
 ## Software:
 - [R](https://www.r-project.org/about.html)
 - [R Studio](https://posit.co/products/open-source/rstudio/)
+- R Packages Implimented 
+  - **ggplot2**: ggplot2 is a popular data visualization package in R. It provides a powerful and flexible grammar of graphics for creating high-quality plots. The package allows users to create a wide range of visualizations, including scatter plots, bar charts, line graphs, and more. It is highly customizable and follows the layered approach to building plots. [Official website](https://ggplot2.tidyverse.org/)
+  - **dplyr**: dplyr is a package for data manipulation and transformation in R. It provides a set of functions that simplify the process of filtering, selecting, arranging, summarizing, and joining data frames. With dplyr, users can perform common data manipulation tasks using intuitive and expressive syntax. It is widely used for data wrangling and exploratory data analysis. [Official website](https://dplyr.tidyverse.org/)
+
 
 ## Final Exam Grade 98%
 
@@ -35,4 +39,4 @@ average_team_offrating
 ### Data Source:
 
 ### Exam Highlights: 
-- 
+-
