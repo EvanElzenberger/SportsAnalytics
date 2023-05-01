@@ -174,7 +174,7 @@ NBA Provided by the professor, taken from [NBA.com](NBA.com/stats)
 ### Exam Highlights:
 
 - Basketball
-  - Compute the average offensive rating by team for this data set
+Compute the average offensive rating by team for this data set
 ```r
 nba_stats <- readRDS("nba_stats.rds")
 average_team_offrating <- nba_stats %>%
@@ -184,7 +184,7 @@ dplyr::summarize(mean(off_rating))
 average_team_offrating
 ```
 - Football
-  - Construct a desnisty plot showing the starting field position distribution for all plays immediately after a kickoff. What value appears to be the mode of this distribution?
+Construct a desnisty plot showing the starting field position distribution for all plays immediately after a kickoff. What value appears to be the mode of this distribution?
  ``` r
 kickoffs <- which(nfl_stats$play_type == "kickoff")
 kickoff_df <- nfl_stats[kickoffs + 1, ]
@@ -193,7 +193,7 @@ p <- ggplot(data = kickoff_df,
 p+ geom_density()
 ```
 - Hockey
-  - Create a player link and scape NHL stats
+Create a player link and scape NHL stats
  ```r
  scrape_nhl_player_stats <- function(player_link, 
                                     type = "basic", 
@@ -204,7 +204,7 @@ MacKinnon_stats <- scrape_nhl_player_stats(MacKinnon_url, type = "advanced", car
 McDavid_stats <- scrape_nhl_player_stats(McDavid_url, type = "advanced", career = FALSE)
 df_advanced <- bind_rows(MacKinnon_stats, McDavid_stats)
 ```
-  - Plot the player trajectory curves for each player showing Corsi percentage as a function of age. Overlay these curves on the same figure
+Plot the player trajectory curves for each player showing Corsi percentage as a function of age. Overlay these curves on the same figure
 ```r
 p <- ggplot(data = df_advanced,
             aes(x = as.numeric(age), y = as.numeric(cf_percent),
