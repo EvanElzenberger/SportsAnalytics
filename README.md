@@ -31,7 +31,7 @@ Performed statistical analysis and create various graphs to present findings.
 ### Data Source: 
 NHL data was scraped using the NHL api
 
-### Exam Highlights: 
+### Project Highlights: 
 This project was open ended, I created a heatmap based on the Avalanche goals.
 ```r
 ##Scrape Data
