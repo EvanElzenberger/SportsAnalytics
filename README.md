@@ -56,11 +56,9 @@ p+ geom_density()
                                     career = FALSE){
   ...
 }
-
 MacKinnon_stats <- scrape_nhl_player_stats(MacKinnon_url, type = "advanced", career = FALSE)
 McDavid_stats <- scrape_nhl_player_stats(McDavid_url, type = "advanced", career = FALSE)
 df_advanced <- bind_rows(MacKinnon_stats, McDavid_stats)
-nrow(df_advanced)
 ```
   - Plot the player trajectory curves for each player showing Corsi percentage as a function of age. Overlay these curves on the same figure
 ```r
@@ -72,9 +70,49 @@ p + geom_smooth() +
   labs(x = "age",
        y = "Corsi Percentage")
 ```
-## Topic 2
+## Final Project Grade 100%
 
-### Data Source:
+### Data Source: 
+NHL data was scraped using a custom formula in R
 
 ### Exam Highlights: 
--
+- I wanted to create a heat map for the Avalanche goals scored. 
+```r
+##Scrape Data
+games <- nhlapi::nhl_schedule_seasons(seasons = 2021, teamIds = 21)[[1]]$dates
+##Mutate Data
+game_ids <- dplyr::bind_rows(games$games) %>% 
+  dplyr::pull(gamePk)
+all_game_feeds <- lapply(game_ids, nhlapi::nhl_games_feed)
+plays <- purrr::map_df(all_game_feeds,
+                       function(x){
+                         return(x[[1]][["liveData"]][["plays"]][["allPlays"]])
+                       }) %>%
+        dplyr::filter(., result.event %in% c("Shot", "Missed Shot", "Blocked Shot", "Goal"))%>%
+        dplyr::mutate(., goal = ifelse(result.event == "Goal", T, F)) %>%
+        dplyr::mutate(., x.coordinate = -abs(coordinates.x))
+
+##Run Gam Model
+goals_gam <- gam(goal ~ s(x.coordinate) + s(coordinates.y),
+family = binomial,
+data = plays)
+
+##Create Graph
+y <- seq(-42,42, length = 50)
+x <- seq(-98, 0, length = 50)
+
+plays_predict_data <- expand.grid(x.coordinate = x,
+                                  coordinates.y = y)
+goal_prob <- predict(goals_gam, plays_predict_data, type = "response")
+plays_predict_data <- mutate(plays_predict_data, goal_prob = goal_prob)
+
+p <- geom_hockey('nhl', display_range = "offense")
+p + geom_tile(data = plays_predict_data,
+aes(x = x.coordinate , y = coordinates.y, fill = goal_prob), alpha = .5) +
+scale_fill_distiller("prob", palette = "Spectral",
+direction = -1,
+limit = c(0,.125)) +
+coord_fixed() +
+labs(
+title = "Goals")
+```
