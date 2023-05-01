@@ -219,3 +219,5 @@ p + geom_smooth() +
   labs(x = "age",
        y = "Corsi Percentage")
 ```
+
+![CorsiPercentage](https://user-images.githubusercontent.com/121822843/235515482-d21d81c8-3851-464d-8a69-0e19fb116fe3.png)
