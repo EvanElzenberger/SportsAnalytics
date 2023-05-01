@@ -174,6 +174,7 @@ NBA Provided by the professor, taken from [NBA.com](NBA.com/stats)
 ### Exam Highlights:
 
 - Basketball
+
 Compute the average offensive rating by team for this data set
 ```r
 nba_stats <- readRDS("nba_stats.rds")
@@ -184,6 +185,7 @@ dplyr::summarize(mean(off_rating))
 average_team_offrating
 ```
 - Football
+
 Construct a desnisty plot showing the starting field position distribution for all plays immediately after a kickoff. What value appears to be the mode of this distribution?
  ``` r
 kickoffs <- which(nfl_stats$play_type == "kickoff")
@@ -193,6 +195,7 @@ p <- ggplot(data = kickoff_df,
 p+ geom_density()
 ```
 - Hockey
+
 Create a player link and scape NHL stats
  ```r
  scrape_nhl_player_stats <- function(player_link, 
