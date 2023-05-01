@@ -116,3 +116,4 @@ coord_fixed() +
 labs(
 title = "Goals")
 ```
+![HeatmapAvsGoals](https://user-images.githubusercontent.com/121822843/235511735-7a576c71-ffe0-41a1-bbf7-9564b575f788.png)
