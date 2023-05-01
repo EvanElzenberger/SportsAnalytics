@@ -32,7 +32,7 @@ Performed statistical analysis and create various graphs to present findings.
 NHL data was scraped using the NHL api
 
 ### Exam Highlights: 
-- I wanted to create a heat map for the Avalanche goals scored. 
+This project was open ended, I created a heatmap based on the Avalanche goals.
 ```r
 ##Scrape Data
 games <- nhlapi::nhl_schedule_seasons(seasons = 2021, teamIds = 21)[[1]]$dates
@@ -73,6 +73,97 @@ labs(
 title = "Goals")
 ```
 ![HeatmapAvsGoals](https://user-images.githubusercontent.com/121822843/235511735-7a576c71-ffe0-41a1-bbf7-9564b575f788.png)
+
+Additionally, I compared the Colorado Avalanche this year to previous years they have won the cup, from 2000 1995. In order to account for the game of hockey evolving overtime we will normalize these statistics by comparing them to the average stats against the average of other teams for each year. 
+
+```r
+## Collect all team stats for 2021
+team_info_2021 <- nhlapi::nhl_teams_stats(teamIds = NULL, seasons = 2021)
+team_stats_df_2021 <- purrr::map_df(team_info_2021$teamStats, 
+                               function(x){
+                                 return(x[[1]])
+                               }) %>% 
+  dplyr::filter(., stat.gamesPlayed != "NA") %>% 
+  dplyr::mutate(., season = rep(2021, each = 32))
+
+## Collect all team stats for 2000
+team_info_2000 <- nhlapi::nhl_teams_stats(teamIds = NULL, seasons = 2000)
+team_stats_df_2000 <- purrr::map_df(team_info_2000$teamStats, 
+                               function(x){
+                                 return(x[[1]])
+                               }) %>% 
+  dplyr::filter(., stat.gamesPlayed != "NA") %>% 
+  dplyr::mutate(., season = rep(2000, each = 30))
+
+## Collect all team stats for 1995
+team_info_1995 <- nhlapi::nhl_teams_stats(teamIds = NULL, seasons = 1995)
+team_stats_df_1995 <- purrr::map_df(team_info_1995$teamStats, 
+                               function(x){
+                                 return(x[[1]])
+                               }) %>% 
+  dplyr::filter(., stat.gamesPlayed != "NA") %>% 
+  dplyr::mutate(., season = rep(1995, each = 26))
+
+## Compute the averages for the league in 2000
+averages_2000 <- team_stats_df_2000 %>%
+   dplyr::mutate(.,numeric_pts = mean(as.numeric(stat.pts)),
+                  numeric_goalsPerGame = mean(as.numeric(stat.goalsPerGame)),
+                  numeric_goalsAgainstPerGame = mean(as.numeric(stat.goalsAgainstPerGame)),
+                 sd_points= sd(as.numeric(stat.pts)),
+                 sd_gpg = sd(as.numeric(stat.goalsPerGame)),
+                 sd_gaa = sd(as.numeric(stat.goalsAgainstPerGame))) %>%
+  dplyr::filter(., team.name %in% c("Colorado Avalanche"))%>% 
+  dplyr::mutate(.,avs_numeric_pts = mean(as.numeric(stat.pts)),
+                  avs_numeric_goalsPerGame = mean(as.numeric(stat.goalsPerGame)),
+                  avs_numeric_goalsAgainstPerGame = mean(as.numeric(stat.goalsAgainstPerGame))) %>%
+  dplyr::mutate(.,pts_diff=(avs_numeric_pts-numeric_pts)/sd_points ,
+         gpg_diff=(avs_numeric_goalsPerGame-numeric_goalsPerGame)/sd_gpg,
+         gaa_diff=(avs_numeric_goalsAgainstPerGame-numeric_goalsAgainstPerGame)/sd_gaa) %>%
+dplyr::summarise(season,numeric_pts, numeric_goalsPerGame, numeric_goalsAgainstPerGame,avs_numeric_pts, avs_numeric_goalsPerGame, avs_numeric_goalsAgainstPerGame, pts_diff, gpg_diff, gaa_diff)
+## Compute the averages for the league in 1995
+averages_1995 <- team_stats_df_1995 %>%
+   dplyr::mutate(.,numeric_pts = mean(as.numeric(stat.pts)),
+                  numeric_goalsPerGame = mean(as.numeric(stat.goalsPerGame)),
+                  numeric_goalsAgainstPerGame = mean(as.numeric(stat.goalsAgainstPerGame)),
+                 sd_points= sd(as.numeric(stat.pts)),
+                 sd_gpg = sd(as.numeric(stat.goalsPerGame)),
+                 sd_gaa = sd(as.numeric(stat.goalsAgainstPerGame))) %>%
+  dplyr::filter(., team.name %in% c("Colorado Avalanche"))%>% 
+  dplyr::mutate(.,avs_numeric_pts = mean(as.numeric(stat.pts)),
+                  avs_numeric_goalsPerGame = mean(as.numeric(stat.goalsPerGame)),
+                  avs_numeric_goalsAgainstPerGame = mean(as.numeric(stat.goalsAgainstPerGame))) %>%
+  dplyr::mutate(.,pts_diff=(avs_numeric_pts-numeric_pts)/sd_points ,
+         gpg_diff=(avs_numeric_goalsPerGame-numeric_goalsPerGame)/sd_gpg,
+         gaa_diff=(avs_numeric_goalsAgainstPerGame-numeric_goalsAgainstPerGame)/sd_gaa) %>%
+dplyr::summarise(season,numeric_pts, numeric_goalsPerGame, numeric_goalsAgainstPerGame,avs_numeric_pts, avs_numeric_goalsPerGame, avs_numeric_goalsAgainstPerGame, pts_diff, gpg_diff, gaa_diff)
+
+## Compute Avs average for 2021
+avs_averages_2021 <- team_stats_df_2021 %>%
+   dplyr::mutate(.,numeric_pts = mean(as.numeric(stat.pts)),
+                  numeric_goalsPerGame = mean(as.numeric(stat.goalsPerGame)),
+                  numeric_goalsAgainstPerGame = mean(as.numeric(stat.goalsAgainstPerGame)),
+                 sd_points= sd(as.numeric(stat.pts)),
+                 sd_gpg = sd(as.numeric(stat.goalsPerGame)),
+                 sd_gaa = sd(as.numeric(stat.goalsAgainstPerGame))) %>%
+#Compute team differences 
+  dplyr::filter(., team.name %in% c("Colorado Avalanche"))%>% 
+  dplyr::mutate(.,avs_numeric_pts = mean(as.numeric(stat.pts)),
+                  avs_numeric_goalsPerGame = mean(as.numeric(stat.goalsPerGame)),
+                  avs_numeric_goalsAgainstPerGame = mean(as.numeric(stat.goalsAgainstPerGame))) %>%
+  dplyr::mutate(.,pts_diff=(avs_numeric_pts-numeric_pts)/sd_points ,
+         gpg_diff=(avs_numeric_goalsPerGame-numeric_goalsPerGame)/sd_gpg,
+         gaa_diff=(avs_numeric_goalsAgainstPerGame-numeric_goalsAgainstPerGame)/sd_gaa) %>%
+dplyr::summarise(season,numeric_pts, numeric_goalsPerGame, numeric_goalsAgainstPerGame,avs_numeric_pts, avs_numeric_goalsPerGame, avs_numeric_goalsAgainstPerGame, pts_diff, gpg_diff, gaa_diff)
+#Create a new table 
+comps <- bind_rows(averages_1995, averages_2000, avs_averages_2021) %>%
+  summarize(season, pts_diff, gpg_diff, gaa_diff)
+comps
+```
+| season | pts_diff | gpg_diff | gaa_diff |
+|--------|----------|----------|----------|
+| 1995   | 1.161180 | 1.830381 | -0.448293 |
+| 2000   | 1.808082 | 1.404801 | -1.131849 |
+| 2021   | 1.380434 | 1.512245 | -0.697242 |
 
 ## Final Exam Grade 98%
 
