@@ -8,7 +8,7 @@ communicate their results (business reports, dashboards, etc.) of the varioius m
 and the RMarkdown suite of tools.
 ---
 ## 🎯 Learning Outcomes:
-Performed statistical analysis and create various graphs to present findings.
+### Performed statistical analysis and create various graphs to present findings.
 ---
 ## 🛠 Software:
 - [R](https://www.r-project.org/about.html)
