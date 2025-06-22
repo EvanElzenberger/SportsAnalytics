@@ -6,10 +6,10 @@ predictive) modeling, optimization, ranking methodologies, web scraping, among o
 most professional sports, gambling (daily fantasy sports), and business operations. In addition, the students will learn how to
 communicate their results (business reports, dashboards, etc.) of the varioius modeling exercises and projects using RStudio
 and the RMarkdown suite of tools.
-
+---
 ## 🎯 Learning Outcomes:
 Performed statistical analysis and create various graphs to present findings.
-
+---
 ## 🛠 Software:
 - [R](https://www.r-project.org/about.html)
 - [R Studio](https://posit.co/products/open-source/rstudio/)
@@ -24,8 +24,7 @@ Performed statistical analysis and create various graphs to present findings.
   - **Purrr**: purrr is an R package that enhances functional programming and iteration in R. It provides a consistent and intuitive toolkit for working with functions and vectors. It is particularly useful for working with lists and applying functions to multiple elements. [Offical website](https://purrr.tidyverse.org/)
   -  **Plotly**: plotly is an R package that provides an interface to the Plotly JavaScript graphing library. It allows users to create interactive and dynamic visualizations in R, including scatter plots, bar charts, line graphs, and more. [Offical website](https://plotly.com/r/)
   -  **MGCV**: mgcv is an R package that provides tools for fitting generalized additive models (GAMs) and generalized additive mixed models (GAMMs). It extends the functionality of the base R package gam and offers additional features for modeling and visualizing smooth nonlinear relationships. [Offical website](https://cran.r-project.org/web/packages/mgcv/mgcv.pdf)
-
-
+---
 ## Final Project Grade 100%
 
 ### Data Source: 
